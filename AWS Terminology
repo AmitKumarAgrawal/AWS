@@ -1,0 +1,353 @@
+AWS	Amazon Web Services		Amazon Web Services (AWS) is a secure cloud services platform, offering compute power, database storage, content delivery and other functionality to help businesses scale and grow. It allows millions of customers in leveraging AWS cloud products and solutions to build sophisticated applications with increased flexibility, scalability and reliability.
+VPC	Virtual Private Cloud		•	Logical datacenter in AWS
+o	Default VPC
+o	Custom VPC
+•	Consists of IGW(Internet GateWay), route tables, NACL (Network Access Control Lists), subnets, security groups
+•	Security groups are Stateful (inbound and outbound traffic allowed) whereas NACLs are stateless.
+•	No transitive VPC Peering
+
+External access to VPC
+•	VPN
+o	Hardware based VPN
+o	Direct Connect
+•	Gateways
+o	Internet gateway (IG)
+	It enables the instances to receive internet.
+o	Virtual private Gateway (VPG)
+	AWS side of the gateway
+o	Customer gateway (CG)
+	Client side of the gateway
+
+VPC Peering
+•	Can be done with two VPC
+•	Can be done across accounts
+•	Needs approval
+•	No transitive connections are allowed
+IAAS	Infrastructure as a service		Infrastructure as a Service provides you with the highest level of flexibility and management control over your IT resources and is most similar to existing IT resources that many IT departments and developers are familiar with today.
+PAAS	Platform as a service		This helps you be more efficient as you don’t need to worry about resource procurement, capacity planning, software maintenance, patching, or any of the other undifferentiated heavy lifting involved in running your application.
+SAAS	Software as a service		Software as a Service provides you with a completed product that is run and managed by the service provider. In most cases, people referring to Software as a Service are referring to end-user applications. With a SaaS offering you do not have to think about how the service is maintained or how the underlying infrastructure is managed; you only need to think about how you will use that particular piece software. A common example of a SaaS application is web-based email where you can send and receive email without having to manage feature additions to the email product or maintaining the servers and operating systems that the email program is running on.
+AZ	Availability Zone		When you launch an instance, you can select an Availability Zone or let us choose one for you. If you distribute your instances across multiple Availability Zones and one instance fails, you can design your application so that an instance in another Availability Zone can handle requests.
+EBS	Elastic Block Storage		EBS in only intended for EC2 instances.
+
+General storage types
+•	Instance store/Ephemeral storage(Temporary storage)
+•	S3 (Object based storage)
+•	EBS (Elastic Block Storage)
+•	EFS (Elastic File System)
+
+EBS types
+•	GP- SSD (General purpose SSD) – gp2
+•	Provisioned IOPS (SSD) – io1
+•	Throughput Optimized (HDD) – st1
+•	Cold (HDD) – sc1
+
+EBS Characteristics
+•	Billed on storage capacity and I/O
+•	Does not need to be attached to an instance
+•	Can be transferred across Availability zones
+•	EBS volumes are designed for an AFR (annual failure rate) between 0.1 – 0.2 %
+•	EBS volume data is replicated across multiple servers in an Availability zone.
+•	SLA –  99.95 %
+
+EBS Volumes types
+•	c – Compute optimized
+•	r – memory optimized
+•	g – graphics optimized
+•	i – storage optimized
+RAID	Redundant Array of independent discs		This is used to increase IOPS performance
+
+Example :- Multiple striped gp2 or standard volumes (typically RAID 0)
+IOPS	Input Output Processing per second		
+PIOPS	Provisioned IOPS		This is a kind of EBS volume, which is optimized for heavy I/P and O/P operations.
+EFS	Elastic File System		Network attached storage
+EC2	Elastic Compute Cloud		Virtual machine instances
+
+EC2 instances types
+•	On demand
+o	Default
+o	Most expensive option
+o	No commitment
+o	Prices vary by AWS region
+o	Billed on an hourly basis
+•	Reserved instances
+o	Less expensive
+o	Requires a commitment (1 or 3 years)
+o	Reserved capacity hence lower hourly rate
+o	You commit to utilization
+o	Unwanted reserved instances can be sold at AWS market place
+•	Spot instances
+o	Unused AWS capacity from amazon
+o	Very cheap hourly rate
+o	Based on a bid hence Not guaranteed
+o	Ideal for raw processing power, grid like application
+o	Highly scriptable
+S3	Simple Storage service		
+S3 characteristics
+•	It is not a file system, it is region-level storage system.
+•	Supports Rest and Soap API
+•	Needs globally unique S3 bucket name
+o	Can be made Publicly accessible for static website hosting
+•	Cross region replication
+o	data is spread out in multiple facilities, you can lose two facilities and still have access to files
+•	Data lifecycle management
+o	Can be used to send data to glacier
+•	Other features:- 
+o	Versioning, Audit logs, event notification, permissions, MFA delete, time limited access
+Other points
+•	Secure, durable, highly scalable object store (1 byte to 5TB), universal namespace (must be unique bucket - regardless of regions),object based key value store, VersionID, Metadata, ACL
+•	The total volume of data and number of objects you can store are unlimited. Individual Amazon S3 objects can range in size from 1 byte to 5 terabytes. The largest object that can be uploaded in a single PUT is 5 gigabytes. For objects larger than 100 megabytes, customers should consider using the Multipart Upload capability. it mean the largest single file into S3 is 5G, but after the 5G files are in S3, they can be assembled into a 5T file,
+•	You can use a Multipart Upload for objects from 5 MB to 5 TB in size (Exam question, scenario where more than 5GB file needs to be uploaded)
+•	object based storage vs block based Storage (EFS)
+•	For PUTS of New Objects (Read after Write Consistency), For Overwrite PUTS and DELETE (Eventual Consistency)
+•	http://docs.aws.amazon.com/general/latest/gr/awsservicelimits.html#limits_s3 ( Number of S3 bucket limit per account — 100)
+•	S3 transfer acceleration – objects are first uploaded to the nearest edge locations, and then copied over to the S3 bucket from the edge location.
+
+RRS	Reduced redundancy storage		Reduced Redundancy Storage (RRS) is an Amazon S3 storage option that enables customers to store noncritical, reproducible data at lower levels of redundancy than Amazon S3’s standard storage.
+
+RRS is designed to provide 99.99% durability per object over a given year. While RRS is less durable than standard Amazon S3, it is still designed to provide 400 times more durability than a typical disk drive
+
+ACL	Access Control Lists		Amazon S3 Access Control Lists (ACLs) enable you to manage access to buckets and objects. Each bucket and object has an ACL attached to it as a sub resource. It defines which AWS accounts or groups are granted access and the type of access. When a request is received against a resource, Amazon S3 checks the corresponding ACL to verify the requester has the necessary access permissions.
+
+CDN	Content Delivery Network		•	This is also known as CloudFront, this is basically used to keep the frequently accessed data in the edge locations.
+•	Content Delivery Network - edge locations, reduced latency, and traffic serves from the closest nodes.
+•	Edge locations - content will be cached (over 66 edge locations), different from region / AZ. TTL (speed of image // media is quicker - first user suffers the performance), can be not only read only (you can write it)
+ELB	Elastic Load Balancer		ELB Characteristics
+•	Region wide load balancer hence provides cross zone load balancing
+•	Can be used internally or externally
+•	Pre-Warming of ELB
+o	In certain scenarios, such as when flash traffic is expected, or in the case where a load test cannot be configured to gradually increase traffic, we recommend that you “contact us” to have your load balancer "pre-warmed". 
+o	We will then configure the load balancer to have the appropriate level of capacity based on the traffic that you expect. 
+o	We will need to know below details.
+	Start and end dates of your tests or expected flash traffic.
+	The expected request rate per second
+	Total size of the typical request/response that you will be testing.
+•	SSL termination and processing
+o	ELB takes care of validating SSL certificates on behalf of all the instances that are configured with it, hence saves time for the instances, as instances don’t have to validate the SSL certificates then, and saves time and resources on ec2 instances.
+•	Cookie based sticky session
+o	Types
+	Duration based session stickiness
+	Application controlled session stickiness
+o	Same user will go to same server for all the subsequent requests
+o	Note: - we should prefer to use database based sticky session instead of this.
+•	Allows “Connection draining” on instances when it has to be taken out
+o	Keeps existing connection to the instance for completion for a graceful exit, but does not allow new connections on the instance.
+•	Integrates with 
+o	Auto scaling
+o	ELB EC2 health checks
+o	Amazon CloudWatch
+o	Route 53
+AutoScaling			Auto Scaling features
+•	Scales up and down the application in terms of EC2 instances.
+•	It is free
+•	It provides Elasticity
+•	Bootstrapping/dynamic configuration
+•	CloudWatch or Manual schedule configuration
+•	Notifications
+o	SNS
+o	SQS
+
+Auto Scaling Components
+•	AutoScaling groups
+o	Aggregates all the EC2 instances
+•	Launch configuration
+o	Details for AWS to provision a new instance using AMI
+•	Scaling Plans
+o	Instructions with the trigger plans for invocations
+Route 53	This is AWS DNS service		Characteristics
+•	Worldwide distributed DNS
+•	SLA – 100 %
+•	Database of name to IP mappings
+•	It supports API
+•	Allows for server health check
+•	DNS routing policies
+o	Simple
+o	Weighted
+o	Latency
+o	Failover
+o	GeoLocation
+TTL	Time to live		Lifetime for data to live on cache, after this time cache has to go and re-read the data from the source.
+CRR	Cross Region Replication		A new feature that automatically replicates data across AWS regions. With cross-region replication, every object is automatically replicated in a different AWS region that you choose. For example, you can use cross-region replication to provide lower-latency data access in different geographic regions.
+MFA	Multi Factor Authentication		
+SG	Security Groups		
+STS	Security Token Service		•	Federated temporary access to AWS resources
+•	Enterprise identity federation
+o	SAML 2.0
+o	LDAp, ADFS
+•	Web Identity federation
+o	Used by twitter, Facebook, google, amazon
+Ephemeral	Temporary		
+SDK	Software Development Kit		Example:- IOS, Android, Browser (Java scripts), Java, .NET, Node.js, PHP, Python, Ruby, Go, C++
+SQS	Simple Queueing Service		Similar to JMS
+
+•	Message can contain up to 256KB of text, billed at 64KB chunks,
+•	Single request can have 1 to 10 messages unto maximum of 256KB payload
+•	Even though there is one message of 256Kb its basically 4 request for billing since (4 * 64KB)
+•	NO ORDER - SQS messages can be delivered multiple times in any order
+•	Design - you can have 2 priority queues for priority based message one for higher and other for lower priority
+•	EC2 instances always poll for messages from the queue (pull from the queue and not push)
+•	Visibility timeout always start from when the application instance polled the message.
+•	Great design - Visibility timeout expires that means there is a failure somewhere since that message was polled but not processed and hence not deleted so other some other process will poll the message again and visibility timeout starts again.
+•	Visibility timeout by default is 30 Seconds up to 12 hour maximum (ChangeMessageVisibility) / maximum visibility
+•	Maximum long polling timeout 20 seconds (http://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-long-polling.html) —ReceiveMessageWaitTimeSeconds
+•	Messages in the Queue can be retained for up to 14 days
+•	First 1 million requests are free, then $0.50 PER EVERY MILLION REQUESTS
+SNS	Simple Notification Service		
+•	Works on publish - subscribe model, SNS notifies the message, and hence push based approach. Inexpensive pay as you go
+•	CloudWatch or AutoScaling triggers SNS
+•	SNS can notify to Email, Text / SMS, SQS or any HTTP end point.
+•	Protocols: HTTP, HTTPS, EMAIL, EMAIL-JSON, SQS or Application - messages can be customized for each protocol
+•	SNS messages are stored redundantly to multiple AZs
+•	SNS Data format - JSON (Subject, Message, TopicArn, MessageId, unsubscribeURL etc..)
+•	$0.50 per 1 million SNS request
+•	Different price for different recipient types
+•	to HTTP: $0.06 / 100,000 notifications deliveries
+•	to EMAIL: $2 / 100,000 notifications deliveries
+•	to SMS: $0.75 / 100 notifications deliveries
+•	http://docs.aws.amazon.com/sns/latest/dg/mobile-push-send-devicetoken.html (CreatePlatformEndpoint API)
+SWF	Simple Work Flow		
+•	Simple Work flow - human interaction to complete order or collection of services to complete a work order.
+•	Workers - interact with SWF to get task, process received task and return the result
+•	Deciders - program that co-ordinates the tasks, i.e. - ordering, concurrency and scheduling
+•	Workers and Deciders can run independently
+•	TASK is only assigned ONCE and NEVER DUPLICATED (key difference from SQS where messages can be processed multiple times)
+•	SWF Domain - think of it as a container for the work flow. you can register a domain by Console or API
+•	Maximum workflow processing time can 1 year (equivalent seconds) - SQS is 12 hours processing time
+AMI	Amazon Machine Image		Virtual machine image/template
+Elastic IP	Elastic IP address		This is a public IP address, which can be accessed from outside world.
+ARN	Amazon Resource Name		Unique for the specific resource
+vCPU	Virtual CPU		
+IAM	Identity and Access Management		
+			
+ECU	EC2 Compute Unit		Relative measure of processing power.
+
+1 ECU = 1.0 – 1.2 GHz 2007 Intel Opteron Or Xeon
+NAT	Network Address Translation		To enable internet access for the EC2 instances in the private subnet.
+ENI	Elastic Network Interface		An elastic network interface (referred to as a network interface in this documentation) is a virtual network interface that you can attach to an instance in a VPC. Network interfaces are available only for instances running in a VPC.
+
+A network interface can include the following attributes:
+•	A primary private IPv4 address
+•	One or more secondary private IPv4 addresses
+•	One Elastic IP address (IPv4) per private IPv4 address
+•	One public IPv4 address
+•	One or more IPv6 addresses
+•	One or more security groups
+•	A MAC address
+•	A source/destination check flag
+•	A description
+NACL	Network Access Control List		
+•	One NACL per subnet
+•	Default rule : deny all
+•	Can have permit and deny rules
+•	Stateless
+o	Inbound and outbound traffic strictly filtered
+o	Separate inbound and outbound rules
+•	Lowered numbered rules are processed first.
+•	Stops on first rule match
+Tip: - Rule numbers should have gaps in between, so that new relative rules can be added in the adjacent places.
+
+SG	Security Group		•	Resource level traffic firewall
+•	Stateful
+o	Return traffic allowed 
+•	SG maximums
+o	Up to 100 SG per VPC
+o	Up to 50 lines/rules in each SG
+o	Up to 5 SG per instance
+•	Instances cannot communicate unless allowed
+•	Default SG allows communication from other instances in the same SG
+•	Deny all inbound until allow
+•	Allow all outbound by defaulto	
+AFR	Annual Failure Rate		This is a unit to measure annual failure rate for the services offered by AWS.
+CloudWatch		Monitoring	•	Monitoring service for AWS cloud resources
+•	Collect & track metrics
+•	Collect & monitor logs
+o	Install the cloud watch agent and it will access and monitor logs
+•	Set Alarms for
+o	Billings
+o	EC2
+o	Databases (RDS, DynamoDB)
+o	EBS
+TrustedAdvisor		Monitoring	•	Automated AWS account audits for
+o	Cost
+o	Performance
+o	Security
+o	Fault tolerance
+•	Paid version expands no. of areas audited.
+RDS	Relational Database Service		RDS characteristics
+•	Database as a service
+•	Database engine managed by AWS
+•	Multi availability zone deployment option
+•	On-demand and reserved instance pricing
+•	Types
+o	Magnetic, GP-SSD, PIOPS
+
+Summary
+•	DB as a service
+•	Multi-AZ failover
+o	Synchronous replica in secondary availability zone
+•	RDS Read Replica
+o	To offload read extensive operations
+o	Asynchronous
+
+Note: - 
+1.	When a new red replica is created, then you would be able to connect to it using a new end point DNS address.
+2.	You can promote a red replica to its own standalone database, but this action will break the replication link between the primary and secondary.
+backups		Backup	EBS backup
+•	Point in time snapshots to S3
+•	Snapshots can be used to
+o	Resize the volume
+o	Copy to other region/AZ
+o	Share
+•	Charges only for the delta backups.
+•	Deleting snapshots only removes the data not needed by another snapshot
+•	Additional backup options
+o	VPN / DirectConnect
+o	Agent based backup
+
+S3 backup
+•	99.999999999 % availability
+•	Versioning
+•	Move to glacier
+
+RDS backup
+•	Automate backup/maintenance
+o	Select backup/maintenance window
+•	DB snapshot based backup
+DMZ	De-Militarized Zone		In computer networking, a De-Militarized Zone (DMZ) is a special local network configuration designed to improve security by segregating computers on each side of a firewall. A DMZ can be set up either on home or business networks, although their usefulness in homes is limited.
+Bastion Host			This allows secure SSH access to EC2 instances in the private subnet. This is also called Jump Box. Bastion host exists in the public subnet only.
+DR	Disaster Recovery		
+RTO	Recovery Time Objective		This term is used in Disaster Recovery scenarios.
+It is length of time, that is takes to recover from a disaster. It is measured from when the disaster first occurred till the time, when you have fully recovered from it.
+RPO	Recovery Point Objective		It is the amount of the data that the organization is prepared to loose in the event of disaster. (Example: - 1 day worth of emails, 5 hours of online transaction records, 24 hours of backup etc...)
+
+The lower the RTO and RPO threshold are, the costlier the DR solution will be.
+Chef			Chef turns infrastructure into code, which makes infrastructure as versionable, testable, and repeatable as code. It stores recipes as well as configurations.
+OpsWork			It is application mgmt. service, which helps in automating various tasks such as deployment, setup, database setup, package installation and server scaling using Chef.
+TTL	Time to live		Length (in time) that a DNS record is cached in the resolving server or the user’s own local PC. The lower the TTL, the faster changes to DNS records gets propagated throughout the internet.
+CLI	Command Line Interface (CLI)		The AWS Command Line Interface (CLI) is a unified tool to manage your AWS services. With just one tool to download and configure, you can control multiple AWS services from the command line and automate them through scripts.
+VIF	Virtual Interface		Direct Connect can be partitioned into multiple Virtual Interfaces. For example, public connectivity to S3, EC2 and Dynamo DB and Pvt connectivity to VPC
+HPC	High Performance Computing		HPC is being used by oil & gas, pharmaceuticals, research, automotive and other industries.
+SR-IOV	Single Route I/O Virtualization		Enhanced networking is enabled through SR-IOV
+HVM	Hardware Virtualization		Enhanced networking is supported on HVM instances
+PV	Para Virtualized instances		Enhanced networking is not supported on PV instances
+Jumbo Frames			Help significantly because it can carry up to 9000 bytes of data
+SMS	Server Migration Service		
+Athena			
+DMS			
+SnowBall			This is used to import/export the data to the AWS infrastructure.
+
+Import/Export service was used for this purpose before Snowball was introduced, the problem with import/Export service was that different clients used to send the data in various different storage devices, and it was literally a nightmare to handle so many different medium of storages, hence snowball was introduced to bring uniformity for storage to import/export the data on/off the AWS platform.
+
+Types of snowball
+1.	Snowball
+a.	80 tb of storage
+2.	Snowball Edge
+a.	100 tb of storage with computing powers
+3.	SnowMobile
+a.	Large trucks with capacity to hold many peta bytes
+WAF	Web Access Firewall		This is used to prevent various security and vulnerability issues for the underlying application.
+CORS	Cross Origin Resource Sharing		Access of objects of one S3 bucket in another s3 bucket. CORS configuration is required for this use case.
+Storage Gateway			1.	Can be deployed on-premise or on an EC2 instance
+2.	Can schedule snapshots
+3.	You can use storage gateway with Direct Connect
+4.	You can implement bandwidth throttling
+5.	On-premise needs either VMWare’s ESXi or Heyper-V
